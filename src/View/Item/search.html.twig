@@ -1,0 +1,11 @@
+<ul>
+    {% for item in items %}
+        <li><a href="/item/{{ item.id }}">{{ item.id }}. {{ item.title }}</a>
+        </li>
+    {% else %}
+        <li>Nothing to display</li>
+    {% endfor %}
+</ul>
+
+
+

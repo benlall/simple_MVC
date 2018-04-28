@@ -1,0 +1,41 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1>Items</h1>
+
+                <h6>{{ messageSession }} </h6>
+
+                <input id="query" type="text" name="query" placeholder="recherche ici"/>
+
+                <div id="search-result"></div>
+
+                <a href="/item/add">Ajouter un nouvel item</a><br>
+                <a href="/contact">Contact</a><br>
+                <a href="/signup">S'inscrire</a><br>
+                <a href="/signin">Se connecter</a><br>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('#query').on('keyup', function (e) {
+            let query = $(this).val();
+                        
+            $.ajax('item/search?query='+query, {
+                success: function (response) {
+                    $('#search-result').html(response);
+                },
+                error: function (textStatus) {
+                    $('#search-result').html(textStatus);
+                }
+            });
+            
+        }) .keyup();
+
+    </script>
+
+{% endblock %}

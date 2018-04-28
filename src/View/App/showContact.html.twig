@@ -1,0 +1,41 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h6>{{ messageSession }}</h6>
+                <h2 class="text-center">Liste des contacts</h2>
+                <table class="table">
+                    <tr>
+                        <th>Civilité</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Date d'enregistrement</th>
+                        <th>Supprimer</th>
+                    </tr>
+
+                    {% for contact in contacts %}
+                    <tr>
+                        <th>{{ contact.civility }}</th>
+                        <th>{{ contact.lastname }}</th>
+                        <th>{{ contact.firstname }}</th>
+                        <th>{{ contact.creationDate }}</th>
+                        <th>
+                            <form action="" method="post">
+                                <input type="hidden" id="id" name="id" value="{{ contact.id }}">
+                                <input type="submit" class="btn btn-danger" value="supprimer">
+                            </form>
+                        </th>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <a href="/contact">Enregistrer un nouveau contact</a>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
