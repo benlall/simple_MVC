@@ -53,7 +53,27 @@ class ItemController extends AbstractController
         $itemManager = new ItemManager();
         $item = $itemManager->selectOneById($id);
 
-        return $this->twig->render('Item/show.html.twig', ['item' => $item]);
+        // delete POST
+        if (isset($_POST['delete'])) {
+            if (isset($_POST['id'])) {
+                $id = $_POST['id'];
+                header('Location: /item/delete/' . $id);
+                die;
+            }
+        }
+
+        if (isset($_SESSION['message'])) {
+            $messageSession = $_SESSION['message'];
+            $_SESSION['message'] = null;
+        } else {
+            $messageSession = null;
+        }
+
+        $templateVariables = [
+            'item' => $item,
+            'messageSession' => $messageSession ];
+
+        return $this->twig->render('Item/show.html.twig', $templateVariables);
     }
 
     /**
@@ -73,13 +93,11 @@ class ItemController extends AbstractController
             $itemManager = new ItemManager();
             $itemManager->update($id, $datas);
 
-
             $_SESSION['message'] = 'Mise à jour OK';
-
             header ('Location: /');
             die;
-
         }
+
         return $this->twig->render('Item/edit.html.twig', ['item', $id]);
     }
 
@@ -114,16 +132,11 @@ class ItemController extends AbstractController
      */
     public function delete(int $id)
     {
-
-        // TODO : delete the item with id $id
         $itemManager = new ItemManager();
         $itemManager->delete($id);
-
         $_SESSION['message'] = 'Suppression OK';
-
         header ('Location: /');
         die;
-
     }
 
     public function search()
@@ -134,12 +147,10 @@ class ItemController extends AbstractController
         if (!$query) {
 
             $templateVariables = ['items' => $itemManager->selectAll()];
-
             return $this->twig->render('Item/search.html.twig', $templateVariables);
         }
 
         $templateVariables = ['items' => $itemManager->searchItem($query)];
-
         return $this->twig->render('Item/search.html.twig', $templateVariables);
     }
 }

@@ -3,7 +3,10 @@
 {% block content %}
     <h1>Item {{ item.title }}</h1>
     <p>{{ item.id }}. {{ item.title }}</p>
-    <a href="/item/edit/{{ item.id }}">Edit</a>
-    <a href="/item/delete/{{ item.id }}">Supprimer</a>
-    <a href="/">Back</a>
+    <a href="/item/edit/{{ item.id }}">Edit</a><br>
+    <form action="" method="post">
+        <input type="hidden" name="id" value="{{ item.id }}">
+        <input type="submit" name="delete" class="btn btn-danger" value="supprimer">
+    </form>
+    <a href="/">Back</a><br>
 {% endblock %}

@@ -14,7 +14,7 @@ $routes = [
         ['index', '/', 'GET'], // action, url, method
         ['add', '/item/add', ['GET', 'POST']],
         ['edit', '/item/edit/{id:\d+}', ['GET', 'POST']],
-        ['show', '/item/{id:\d+}', 'GET'],
+        ['show', '/item/{id:\d+}', ['GET', 'POST']],
         ['delete', '/item/delete/{id:\d+}', 'GET'],
         ['search', '/item/search', 'GET'],
 
@@ -22,11 +22,12 @@ $routes = [
 
     'App' => [
         ['form', '/contact', ['GET', 'POST']],
-        ['show', '/show/contacts', ['GET', 'POST']],
+        ['show', '/contact/show', ['GET', 'POST']],
+        ['delete', '/contact/delete/{id:\d+}', 'GET'],
     ],
 
     'User' =>[
         ['signup', '/signup', ['GET', 'POST']],
         ['signin', '/signin', ['GET', 'POST']],
-    ]
+    ],
 ];

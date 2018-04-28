@@ -57,11 +57,10 @@ class AppController extends AbstractController
                 $contactManager->insert($datas);
 
                 $_SESSION['message'] = 'Insertion OK';
-                header('Location: /show/contacts');
+                header('Location:/contact/show');
                 die;
             }
         }
-
 
         if (isset($_SESSION['message'])) {
             $messageSession = $_SESSION['message'];
@@ -69,7 +68,6 @@ class AppController extends AbstractController
         } else {
             $messageSession = null;
         }
-
 
         $templateVariables = ['checked' => $checked,
             'validFirstName' => $validFirstname,
@@ -81,20 +79,16 @@ class AppController extends AbstractController
 
     public function show()
     {
+        $contactManager = new ContactManager();
+        $contacts = $contactManager->selectAllDescOrderedBy('creation_date', 3);
 
-        $ContactManager = new ContactManager();
-        $contacts = $ContactManager->selectAll();
-        //$contacts = $ContactManager->selectAllDescOrderedBy('creation_date', 3);
-
-        // a déporter dans une fonction delete (nouvelle route)
-        if ($_POST) {
-            $id = $_POST['id'];
-            $contactManager = new ContactManager();
-            $contactManager->delete($id);
-
-            $_SESSION['message'] = 'Suppression OK';
-            header ('Location: /show/contacts');
-            die;
+        // delete POST
+        if (isset($_POST['delete'])) {
+            if (isset($_POST['id'])) {
+                $id = $_POST['id'];
+                header('Location: /contact/delete/' . $id);
+                die;
+            }
         }
 
         if (isset($_SESSION['message'])) {
@@ -104,11 +98,19 @@ class AppController extends AbstractController
             $messageSession = null;
         }
 
-        $templateVariables = ['contacts' => $contacts, 'messageSession' => $messageSession];
-
-
+        $templateVariables = [
+            'contacts' => $contacts,
+            'messageSession' => $messageSession ];
         return $this->twig->render('App/showContact.html.twig', $templateVariables);
+    }
 
+    public function delete($id)
+    {
+        $contactManager = new ContactManager();
+        $contactManager->delete($id);
+        $_SESSION['message'] = 'Suppression OK';
+        header ('Location: /contact/show');
+        die;
     }
 
 }

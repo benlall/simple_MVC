@@ -29,4 +29,12 @@ class ContactManager extends AbstractManager
         return  $this->pdoConnection->query('SELECT contact.id, contact.firstname, contact.lastname, civilty.name as civility FROM ' .
             $this->table .' JOIN civilty ON civilty.id = contact.civility_id', \PDO::FETCH_CLASS, $this->className)->fetchAll();
     }
+
+    public function selectAllDescOrderedBy($field, $limit) : array
+    {
+        return $this->pdoConnection->query('SELECT contact.id, contact.firstname, contact.creation_date, contact.lastname, civility.name as civility FROM ' . $this->table .' JOIN civility ON civility.id = contact.civility_id  ORDER BY ' . $field . ' DESC
+        LIMIT ' . $limit, \PDO::FETCH_CLASS, $this->className)->fetchAll();
+    }
+    
+
 }
