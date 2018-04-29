@@ -41,8 +41,7 @@ abstract class AbstractManager
      */
     public function selectAll(): array
     {
-        return $this->pdoConnection->query('SELECT * FROM ' . $this->table, \PDO::FETCH_CLASS,
-            $this->className)->fetchAll();
+        return $this->pdoConnection->query('SELECT * FROM ' . $this->table, \PDO::FETCH_CLASS, $this->className)->fetchAll();
     }
 
     /**
@@ -74,6 +73,11 @@ abstract class AbstractManager
         return $statement->fetch();
     }
 
+    /**
+     * @param string $fieldName
+     * @param $fieldValue
+     * @return mixed
+     */
     public function selectOneByFieldName(string $fieldName, $fieldValue)
     {
         $statement = $this->pdoConnection->prepare("SELECT * FROM $this->table WHERE $fieldName = :fieldValue");
@@ -120,8 +124,14 @@ abstract class AbstractManager
      * @param int   $id   Id of the row to update
      * @param array $data $data to update
      */
-    public function update(int $id, array $data)
+    public function update(int $id, array $datas)
     {
-        //TODO : Implements SQL UPDATE request
+        foreach ($datas as $k => $data) {
+            $datas[$k] = "$k = '$data' ";
+        }
+
+        $datasAsString = implode(',', $datas);
+
+        $this->pdoConnection->query(" UPDATE $this->table SET $datasAsString WHERE id = $id");
     }
 }

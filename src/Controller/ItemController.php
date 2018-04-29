@@ -86,7 +86,7 @@ class ItemController extends AbstractController
     public function edit(int $id)
     {
         // TODO : edit item with id $id
-        if ($_POST){
+        if ($_POST) {
             $datas = [];
             $datas['title'] = $_POST['title'];
 
@@ -94,7 +94,7 @@ class ItemController extends AbstractController
             $itemManager->update($id, $datas);
 
             $_SESSION['message'] = 'Mise à jour OK';
-            header ('Location: /');
+            header('Location: /');
             die;
         }
 
@@ -116,7 +116,7 @@ class ItemController extends AbstractController
             $itemManager->insert($datas);
 
             $_SESSION['message'] = 'Insertion OK';
-            header ('Location: /');
+            header('Location: /');
             die;
         }
 
@@ -135,7 +135,7 @@ class ItemController extends AbstractController
         $itemManager = new ItemManager();
         $itemManager->delete($id);
         $_SESSION['message'] = 'Suppression OK';
-        header ('Location: /');
+        header('Location: /');
         die;
     }
 
@@ -145,7 +145,6 @@ class ItemController extends AbstractController
         $query = $_GET['query'] ?? null ;
 
         if (!$query) {
-
             $templateVariables = ['items' => $itemManager->selectAll()];
             return $this->twig->render('Item/search.html.twig', $templateVariables);
         }

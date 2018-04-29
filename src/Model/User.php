@@ -27,8 +27,7 @@ class User
     /**
      * @return mixed
      */
-    public
-    function getId()
+    public function getId()
     {
         return $this->id;
     }
@@ -36,8 +35,7 @@ class User
     /**
      * @param mixed $id
      */
-    public
-    function setId($id)
+    public function setId($id)
     {
         $this->id = $id;
     }
@@ -45,8 +43,7 @@ class User
     /**
      * @return mixed
      */
-    public
-    function getPseudo()
+    public function getPseudo()
     {
         return $this->pseudo;
     }
@@ -54,8 +51,7 @@ class User
     /**
      * @param mixed $pseudo
      */
-    public
-    function setPseudo($pseudo)
+    public function setPseudo($pseudo)
     {
         $this->pseudo = $pseudo;
     }
@@ -63,8 +59,7 @@ class User
     /**
      * @return mixed
      */
-    public
-    function getEmail()
+    public function getEmail()
     {
         return $this->email;
     }
@@ -72,8 +67,7 @@ class User
     /**
      * @param mixed $email
      */
-    public
-    function setEmail($email)
+    public function setEmail($email)
     {
         $this->email = $email;
     }
@@ -81,8 +75,7 @@ class User
     /**
      * @return mixed
      */
-    public
-    function getPassword()
+    public function getPassword()
     {
         return $this->password;
     }
@@ -90,11 +83,8 @@ class User
     /**
      * @param mixed $password
      */
-    public
-    function setPassword($password)
+    public function setPassword($password)
     {
         $this->password = $password;
     }
-
-
 }

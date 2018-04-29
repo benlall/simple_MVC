@@ -13,6 +13,7 @@
                         <th>Nom</th>
                         <th>Prénom</th>
                         <th>Date d'enregistrement</th>
+                        <th>Modifier</th>
                         <th>Supprimer</th>
                     </tr>
 
@@ -25,9 +26,16 @@
                         <th>
                             <form action="" method="post">
                                 <input type="hidden" id="id" name="id" value="{{ contact.id }}">
+                                <input type="submit" name="modify" class="btn btn-warning" value="modifier">
+                            </form>
+                        </th>
+                        <th>
+                            <form action="" method="post">
+                                <input type="hidden" id="id" name="id" value="{{ contact.id }}">
                                 <input type="submit" name="delete" class="btn btn-danger" value="supprimer">
                             </form>
                         </th>
+
                     </tr>
                     {% endfor %}
                 </table>

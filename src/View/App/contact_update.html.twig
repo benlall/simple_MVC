@@ -1,0 +1,22 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+
+                <h2 class="text-center">Modifier un contact</h2>
+                <form method="post">
+                    <label for="lastname">Nom :</label>
+                    <input type="text" id="lastname" name="lastname" value="{{ contact.lastname }}"><br>
+                    <label for="firstname">Prenom :</label>
+                    <input type="text" id="firstname" name="firstname" value="{{ contact.firstname }}"><br>
+                    <input type="hidden" name="id" value="{{ id }}"/>
+                    <input type="submit" name="update" value="Valider la modification">
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

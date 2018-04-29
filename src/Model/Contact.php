@@ -104,8 +104,7 @@ class Contact
     /**
      * @return mixed
      */
-    public
-    function getCivility()
+    public function getCivility()
     {
         return $this->civility;
     }
@@ -113,10 +112,8 @@ class Contact
     /**
      * @param mixed $civility
      */
-    public
-    function setCivility($civility)
+    public function setCivility($civility)
     {
         $this->civility = $civility;
     }
-
 }

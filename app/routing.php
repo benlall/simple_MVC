@@ -23,6 +23,7 @@ $routes = [
     'App' => [
         ['form', '/contact', ['GET', 'POST']],
         ['show', '/contact/show', ['GET', 'POST']],
+        ['update', '/contact/update/{id:\d+}', ['GET', 'POST']],
         ['delete', '/contact/delete/{id:\d+}', 'GET'],
     ],
 

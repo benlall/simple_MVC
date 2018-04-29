@@ -12,22 +12,20 @@ namespace Controller;
 use Model\CivilityManager;
 use Model\ContactManager;
 
-
-
 /**
  * Class AppController
  *
  */
 class AppController extends AbstractController
 {
-    public function form(){
+    public function form()
+    {
 
         $checked = 0;
         $validFirstname = '';
         $validLastname = '';
 
-        if ($_POST) { // a corriger en faisant les isset de chq $_POST au prealable
-
+        if ($_POST) {
             $errors = [];
             $validFirstname = htmlspecialchars($_POST['firstname']);
             $validLastname = htmlspecialchars($_POST['lastname']);
@@ -91,6 +89,15 @@ class AppController extends AbstractController
             }
         }
 
+        // update POST
+        if (isset($_POST['modify'])) {
+            if (isset($_POST['id'])) {
+                $id = $_POST['id'];
+                header('Location: /contact/update/' . $id);
+                die;
+            }
+        }
+
         if (isset($_SESSION['message'])) {
             $messageSession = $_SESSION['message'];
             $_SESSION['message'] = null;
@@ -109,8 +116,42 @@ class AppController extends AbstractController
         $contactManager = new ContactManager();
         $contactManager->delete($id);
         $_SESSION['message'] = 'Suppression OK';
-        header ('Location: /contact/show');
+        header('Location: /contact/show');
         die;
     }
 
+    public function update($id)
+    {
+
+        $contactManager = new ContactManager();
+        $contact = $contactManager->selectOneById($id);
+
+        if (isset($_POST['update'])) {
+            $datas = [];
+            $datas['firstname'] = $_POST['firstname'];
+            $datas['lastname'] = $_POST['lastname'];
+            $id = $_POST['id'];
+
+            $contactManager = new ContactManager();
+            $contactManager->update($id, $datas);
+
+            $_SESSION['message'] = 'Modification OK';
+            header('Location:/contact/show');
+            die;
+        }
+
+        if (isset($_SESSION['message'])) {
+            $messageSession = $_SESSION['message'];
+            $_SESSION['message'] = null;
+        } else {
+            $messageSession = null;
+        }
+
+        $templateVariables = [
+            'messageSession' => $messageSession,
+            'id' => $id,
+            'contact' => $contact];
+
+        return $this->twig->render('App/contact_update.html.twig', $templateVariables);
+    }
 }

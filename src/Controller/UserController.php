@@ -26,7 +26,6 @@ class UserController extends AbstractController
         $passwordError = '';
 
         if ($_POST) {
-
             $errors = [];
 
             if (!empty($_POST['pseudo'])) {
@@ -48,7 +47,6 @@ class UserController extends AbstractController
             }
 
             if (!$errors && !empty($_POST['passwordConfirm']) && $password == $_POST['passwordConfirm']) {
-
                 $datas = [];
                 $datas['pseudo'] = $pseudo;
                 $datas['email'] = $email;
@@ -91,7 +89,7 @@ class UserController extends AbstractController
                 $email = $_POST['email'];
             }
 
-            if(!empty($_POST['password'])) {
+            if (!empty($_POST['password'])) {
                 $password = $_POST['password'];
             }
 
@@ -107,7 +105,6 @@ class UserController extends AbstractController
                 $_SESSION['message'] = 'Vous devez d\'abord vous inscrire';
                 header('location:/signup');
                 die;
-
             }
         }
 

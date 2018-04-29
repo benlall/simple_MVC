@@ -29,7 +29,6 @@ class ItemManager extends AbstractManager
         $query = '%' . $query . '%' ;
         $query = $this->pdoConnection->quote($query);
 
-        return $this->pdoConnection->query("SELECT * FROM  $this->table WHERE title LIKE $query",
-        \PDO::FETCH_CLASS, $this->className)->fetchAll();
+        return $this->pdoConnection->query("SELECT * FROM  $this->table WHERE title LIKE $query", \PDO::FETCH_CLASS, $this->className)->fetchAll();
     }
 }
