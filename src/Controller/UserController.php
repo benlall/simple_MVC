@@ -24,10 +24,11 @@ class UserController extends AbstractController
         $validPseudo = '';
         $validEmail = '';
         $passwordError = '';
+        $errors['pseudo'] = null;
+        $errors['email'] = null;
+        $errors['password'] = null;
 
         if ($_POST) {
-            $errors = [];
-
             if (!empty($_POST['pseudo'])) {
                 $pseudo = $_POST['pseudo'];
                 $validPseudo = htmlspecialchars($_POST['pseudo']);
@@ -46,7 +47,7 @@ class UserController extends AbstractController
                 $errors['password'] = 'Vous devez saisir un mot de passe';
             }
 
-            if (!$errors && !empty($_POST['passwordConfirm']) && $password == $_POST['passwordConfirm']) {
+            if (!is_null($errors) && !empty($_POST['passwordConfirm']) && $password == $_POST['passwordConfirm']) {
                 $datas = [];
                 $datas['pseudo'] = $pseudo;
                 $datas['email'] = $email;
@@ -70,12 +71,14 @@ class UserController extends AbstractController
             $messageSession = null;
         }
 
-
         $templateVariables = [
             'validPseudo' => $validPseudo,
             'validEmail' => $validEmail,
             'messageSession' => $messageSession,
             'passwordError' => $passwordError,
+            'errorPseudo' => $errors['pseudo'],
+            'errorEmail' => $errors['email'],
+            'errorPassword' => $errors['password'],
         ];
 
         return $this->twig->render('User/signup.html.twig', $templateVariables);
@@ -84,11 +87,13 @@ class UserController extends AbstractController
     public function signin()
     {
 
+        $loginSession = null;
+        $validEmail = null;
+
         if ($_POST) {
             if (!empty($_POST['email'])) {
                 $email = $_POST['email'];
             }
-
             if (!empty($_POST['password'])) {
                 $password = $_POST['password'];
             }
@@ -101,6 +106,11 @@ class UserController extends AbstractController
                 $_SESSION['message'] = 'Vous etes connecté';
                 header('location: /');
                 die;
+            } elseif ($user && !password_verify($password, $user->getPassword())) {
+                $_SESSION['message'] = 'Mot de passe invalide';
+                $_SESSION['email'] = $email;
+                header('location:/signin');
+                die;
             } else {
                 $_SESSION['message'] = 'Vous devez d\'abord vous inscrire';
                 header('location:/signup');
@@ -108,10 +118,17 @@ class UserController extends AbstractController
             }
         }
 
-        if (isset($_SESSION['login'])) {
-            $loginSession = $_SESSION['login'];
+        if ($_SESSION) {
             $messageSession = $_SESSION['message'];
             $_SESSION['message'] = null;
+            if ($_SESSION['email']) {
+                $validEmail = $_SESSION['email'];
+                $_SESSION['email'] = null;
+            } elseif ($_SESSION['login']) {
+                $loginSession = $_SESSION['login']; // à modif car en l'etat inutile
+                $messageSession = $_SESSION['message'];
+                $_SESSION['message'] = null;
+            }
         } else {
             $loginSession = null;
             $messageSession = null;
@@ -120,6 +137,7 @@ class UserController extends AbstractController
         $templateVariables = [
             'loginSession' => $loginSession,
             'messageSession' => $messageSession,
+            'validEmail' => $validEmail,
         ];
 
         return $this->twig->render('User/signin.html.twig', $templateVariables);

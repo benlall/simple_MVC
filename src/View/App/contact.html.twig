@@ -9,12 +9,15 @@
                 <h2 class="text-center">Inserer un nouveau contact</h2>
                 <h6>{{ messageSession }}</h6>
                 <form method="post">
-                    <input type="radio" name="civility" value="1" id="mr" {% if checked == '1' %} {{ checked }} {% endif %}><label for="mr">Mr</label>
-                    <input type="radio" name="civility" value="2" id="mms" {% if checked == '2' %} {{ checked }} {% endif %}><label for="mms">Mme</label><br>
+                    <input type="radio" name="civility" value="1" id="mr" {% if civility == '1' %} {{ checked }} {% endif %}><label for="mr">Mr</label>
+                    <input type="radio" name="civility" value="2" id="mms" {% if civility == '2' %} {{ checked }} {% endif %}><label for="mms">Mme</label><br>
+                    <p>{% if errorCivility is defined %} {{ errorCivility }} {% endif %}</p>
                     <label for="lastname">Nom :</label>
                     <input type="text" id="lastname" name="lastname" value="{% if validLastName is not empty %} {{ validLastName }} {% endif %}"><br>
+                    <p>{% if errorLastname is defined %} {{ errorLastname }} {% endif %}</p>
                     <label for="firstname">Prenom :</label>
                     <input type="text" id="firstname" name="firstname" value="{% if validFirstName is not empty %} {{ validFirstName }} {% endif %}"><br>
+                    <p>{% if errorFirstname is defined %} {{ errorFirstname }} {% endif %}</p>
                     <input type="submit" value="Valider">
                 </form>
             </div>

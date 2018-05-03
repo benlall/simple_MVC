@@ -20,34 +20,39 @@ class AppController extends AbstractController
 {
     public function form()
     {
-
-        $checked = 0;
+        $civility = 0;
+        $checked = 'checked';
         $validFirstname = '';
         $validLastname = '';
+        $errorFirstname = '';
+        $errorLastname = '';
+        $errorCivility = '';
 
         if ($_POST) {
-            $errors = [];
-            $validFirstname = htmlspecialchars($_POST['firstname']);
-            $validLastname = htmlspecialchars($_POST['lastname']);
-
-            if (empty($_POST['firstname'])) {
-                $errors['firstname'] = 'Vous devez saisir un prénom';
-            }
-            if (empty($_POST['lastname'])) {
-                $errors['lastname'] = 'Vous devez saisir un nom';
-            }
-            if (empty($_POST['civility'])) {
-                $errors['civility'] = 'Vous devez choisir une civilité';
+            if (!empty($_POST['firstname'])) {
+                $firstname = $_POST['firstname'];
+                $validFirstname = htmlspecialchars($_POST['firstname']);
             } else {
-                $checked = $_POST['civility'];
+                $errorFirstname = 'Vous devez saisir un prénom';
+            }
+            if (!empty($_POST['lastname'])) {
+                $lastname = $_POST['lastname'];
+                $validLastname = htmlspecialchars($_POST['lastname']);
+            } else {
+                $errorLastname = 'Vous devez saisir un nom';
+            }
+            if (!empty($_POST['civility'])) {
+                $civility = $_POST['civility'];
+            } else {
+                $errorCivility = 'Vous devez choisir une civilité';
             }
             
-            if (!$errors) {
+            if (!$errorFirstname && !$errorLastname && !$errorCivility) {
                 $datas = [];
                 //les index de $datas sont les champs de la table
-                $datas['firstname'] = $_POST['firstname'];
-                $datas['lastname'] = $_POST['lastname'];
-                $datas['civility_id'] = $_POST['civility'];
+                $datas['firstname'] = $firstname;
+                $datas['lastname'] = $lastname;
+                $datas['civility_id'] = $civility;
                 $date = new \DateTime();
                 $datas['creation_date'] = $date->format('Y-m-d H:i:s');
 
@@ -67,10 +72,15 @@ class AppController extends AbstractController
             $messageSession = null;
         }
 
-        $templateVariables = ['checked' => $checked,
+        $templateVariables = ['civility' => $civility,
+            'checked' => $checked,
             'validFirstName' => $validFirstname,
             'validLastName' => $validLastname,
-            'messageSession' => $messageSession];
+            'messageSession' => $messageSession,
+            'errorFirstname' => $errorFirstname,
+            'errorLastname' => $errorLastname,
+            'errorCivility' => $errorCivility,
+        ];
 
         return $this->twig->render('App/contact.html.twig', $templateVariables);
     }
